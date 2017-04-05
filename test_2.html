@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+	body *{
+		box-sizing: border-box;
+	}
+	table{
+		border: 1px solid black;
+	}
+	table tr:first-child{
+		font-weight: bold;
+	}
+	td{
+		border: 1px solid black;
+		padding: 5px 8px;
+	}
+	.panel{
+		margin-bottom: 20px;
+	}
+</style>
+<body>
+     <script> 
+		window.onload=function(){
+			let json = `[{
+				  "id": 1,
+				  "first_name": "Jonathan",
+				  "last_name": "Mendoza",
+				  "email": "jmendoza0@posterous.com",
+				  "gender": "Male"
+				}, {
+				  "id": 2,
+				  "first_name": "Sandra",
+				  "last_name": "Payne",
+				  "email": "spayne1@unc.edu",
+				  "gender": "Female"
+				}, {
+				  "id": 3,
+				  "first_name": "Denise",
+				  "last_name": "Rodriguez",
+				  "email": "drodriguez2@slashdot.org",
+				  "gender": "Female"
+				}, {
+				  "id": 4,
+				  "first_name": "Irene",
+				  "last_name": "Armstrong",
+				  "email": "iarmstrong3@blogspot.com",
+				  "gender": "Female"
+				}, {
+				  "id": 5,
+				  "first_name": "Raymond",
+				  "last_name": "Moreno",
+				  "email": "rmoreno4@rakuten.co.jp",
+				  "gender": "Male"
+				}, {
+				  "id": 6,
+				  "first_name": "Carolyn",
+				  "last_name": "Gray",
+				  "email": "cgray5@eepurl.com",
+				  "gender": "Female"
+				}, {
+				  "id": 7,
+				  "first_name": "Gerald",
+				  "last_name": "Price",
+				  "email": "gprice6@reverbnation.com",
+				  "gender": "Male"
+				}, {
+				  "id": 8,
+				  "first_name": "Gloria",
+				  "last_name": "Simpson",
+				  "email": "gsimpson7@example.com",
+				  "gender": "Female"
+				}, {
+				  "id": 9,
+				  "first_name": "Harold",
+				  "last_name": "Kelly",
+				  "email": "hkelly8@reddit.com",
+				  "gender": "Male"
+				}, {
+				  "id": 10,
+				  "first_name": "Lori",
+				  "last_name": "Dean",
+				  "email": "ldean9@hibu.com",
+				  "gender": "Female"
+				}, {
+				  "id": 11,
+				  "first_name": "Linda",
+				  "last_name": "Mendoza",
+				  "email": "lmendozaa@tuttocitta.it",
+				  "gender": "Female"
+				}, {
+				  "id": 12,
+				  "first_name": "Eric",
+				  "last_name": "Collins",
+				  "email": "ecollinsb@xrea.com",
+				  "gender": "Male"
+				}, {
+				  "id": 13,
+				  "first_name": "Frank",
+				  "last_name": "Coleman",
+				  "email": "fcolemanc@drupal.org",
+				  "gender": "Male"
+				}, {
+				  "id": 14,
+				  "first_name": "Doris",
+				  "last_name": "Banks",
+				  "email": "dbanksd@usa.gov",
+				  "gender": "Female"
+				}, {
+				  "id": 15,
+				  "first_name": "Arthur",
+				  "last_name": "Green",
+				  "email": "agreene@addtoany.com",
+				  "gender": "Male"
+				}]`;
+				
+				let arr = JSON.parse(json);
+				let arr2 = arr;
+				let table = document.createElement("table");
+
+				let tr = document.createElement("tr");
+				let td1 = document.createElement("td");
+				td1.innerHTML = "User's full name";
+				let td2 = document.createElement("td");
+				td2.innerHTML = "Email";
+				let td3 = document.createElement("td");
+				td3.innerHTML = "Gender";
+				tr.appendChild(td1);
+				tr.appendChild(td2);
+				tr.appendChild(td3);
+				table.appendChild(tr);
+
+				for(let i = 0; i < arr.length; i++){
+					let tr = document.createElement("tr");
+					let td1 = document.createElement("td");
+					td1.innerHTML = `${arr[i]["first_name"]} ${arr[i]["last_name"]}`;
+					let td2 = document.createElement("td");
+					td2.innerHTML = `${arr[i]["email"]}`;
+					let td3 = document.createElement("td");
+					td3.innerHTML = `${arr[i]["gender"]}`;
+					
+					tr.appendChild(td1);
+					tr.appendChild(td2);
+					tr.appendChild(td3);
+					table.appendChild(tr);
+				}
+
+				document.body.appendChild(table);
+
+				let btn1 = document.querySelector(".ascend");
+				let btn2 = document.querySelector(".descend");
+				let input = document.querySelector("#search");
+
+				btn1.addEventListener("click", ascendSort);
+				btn2.addEventListener("click", descendSort);
+				input.addEventListener("input", filtration);
+
+				function ascendSort(){
+					for(let i = 0; i < arr2.length; i++){
+						let min_i = i;
+						for(let j=i+1; j<arr2.length; j++){
+							if(arr2[j]["first_name"].charCodeAt(0)<arr2[min_i]["first_name"].charCodeAt(0)){
+								min_i = j;
+							}
+						}
+						let temp = arr2[i];
+						arr2[i] = arr2[min_i];
+						arr2[min_i] = temp;
+					}
+					reDraw();
+				}
+
+				function descendSort(){
+					for(let i = 0; i < arr2.length; i++){
+						let max_i = i;
+						for(let j=i+1; j<arr2.length; j++){
+							if(arr2[j]["first_name"].charCodeAt(0)>arr2[max_i]["first_name"].charCodeAt(0)){
+								max_i = j;
+							}
+						}
+						let temp = arr2[i];
+						arr2[i] = arr2[max_i];
+						arr2[max_i] = temp;
+					}
+					reDraw();
+				}
+
+				function filtration(){
+					let table = document.querySelector("table");
+					let rows = document.querySelectorAll("table tr");
+					let txt = input.value, flag = false;
+					let childs = table.childNodes.length;
+					for(let j=childs-1;j>0;j--){
+						table.removeChild(rows[j]);
+						arr2=[];
+					}
+					for(let i = 0; i < arr.length; i++){
+						let substrTd = arr[i]["first_name"].substr(0,txt.length).toLowerCase();
+						if(substrTd==txt.toLowerCase()){
+							let tr = document.createElement("tr");
+							let td1 = document.createElement("td");
+							td1.innerHTML = `${arr[i]["first_name"]} ${arr[i]["last_name"]}`;
+							let td2 = document.createElement("td");
+							td2.innerHTML = `${arr[i]["email"]}`;
+							let td3 = document.createElement("td");
+							td3.innerHTML = `${arr[i]["gender"]}`;
+							
+							tr.appendChild(td1);
+							tr.appendChild(td2);
+							tr.appendChild(td3);
+							table.appendChild(tr);
+
+							arr2.push(arr[i]);
+						}
+					}
+
+					if(txt.length==0){
+						arr2 = arr;
+						defTable();
+					}
+				}
+
+				function reDraw(){
+					let table = document.querySelector("table");
+					let rows = document.querySelectorAll("table tr");
+					for(let i=1;i<rows.length;i++){
+						rows[i].children[0].innerHTML = `${arr2[i-1]["first_name"]} ${arr2[i-1]["last_name"]}`;
+						rows[i].children[1].innerHTML = `${arr2[i-1]["email"]}`;
+						rows[i].children[2].innerHTML = `${arr2[i-1]["gender"]}`;
+					}
+				}
+
+				function defTable(){
+					let childs = table.childNodes.length;
+					let rows = document.querySelectorAll("table tr");
+					for(let j=childs-1;j>0;j--){
+						table.removeChild(rows[j]);
+					}
+					for(let i = 0; i < arr.length; i++){
+						let tr = document.createElement("tr");
+						let td1 = document.createElement("td");
+						td1.innerHTML = `${arr[i]["first_name"]} ${arr[i]["last_name"]}`;
+						let td2 = document.createElement("td");
+						td2.innerHTML = `${arr[i]["email"]}`;
+						let td3 = document.createElement("td");
+						td3.innerHTML = `${arr[i]["gender"]}`;
+						
+						tr.appendChild(td1);
+						tr.appendChild(td2);
+						tr.appendChild(td3);
+						table.appendChild(tr);
+					}
+					
+				}
+		}
+		 	
+	</script>
+<div class="panel">
+	<input id="search" placeholder="Enter filter name">
+	<input type="button" class="ascend" value="Ascending">
+	<input type="button" class="descend" value="Descending">
+</div>
+<div id="container"></div>
+
+</body>
+</html>
